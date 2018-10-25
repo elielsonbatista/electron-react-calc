@@ -8,7 +8,7 @@ function createWindow () {
     // Criar uma janela de navegação.
     win = new BrowserWindow({
         width: 350,
-        height: 500,
+        height: 450,
         resizable: false
     });
 
@@ -24,7 +24,7 @@ function createWindow () {
         // em um array, se seu app suporta várias janelas, este é o momento
         // quando você deve excluir o elemento correspondente.
         win = null;
-    })
+    });
 }
 
 app.disableHardwareAcceleration();
