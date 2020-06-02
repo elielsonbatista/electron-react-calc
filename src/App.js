@@ -22,7 +22,7 @@ const styles = {
     },
 
     input: {
-        'style': {
+        style: {
             textAlign: 'right'
         }
     },
@@ -45,113 +45,91 @@ class App extends React.Component
 
             buttons: {
                 number_7: {
-                    text: 7,
-                    size: 2
+                    text: 7
                 },
 
                 number_8: {
-                    text: 8,
-                    size: 2
+                    text: 8
                 },
 
                 number_9: {
-                    text: 9,
-                    size: 2
+                    text: 9
                 },
 
-                operator_divider: {
-                    text: '÷',
-                    size: 2
+                divider: {
+                    text: '÷'
                 },
 
                 clear: {
-                    text: <DeleteIcon fontSize="small" />,
-                    size: 2
+                    text: <DeleteIcon fontSize="small" />
                 },
 
                 backspace: {
-                    text: <BackspaceIcon fontSize="small" />,
-                    size: 2,
+                    text: <BackspaceIcon fontSize="small" />
                 },
 
                 number_4: {
-                    text: 4,
-                    size: 2
+                    text: 4
                 },
 
                 number_5: {
-                    text: 5,
-                    size: 2
+                    text: 5
                 },
 
                 number_6: {
-                    text: 6,
-                    size: 2
+                    text: 6
                 },
 
                 multiply: {
-                    text: '*',
-                    size: 2
+                    text: '*'
                 },
 
                 parenthesis_open: {
-                    text: '(',
-                    size: 2
+                    text: '('
                 },
 
                 parenthesis_close: {
-                    text: ')',
-                    size: 2
+                    text: ')'
                 },
 
                 number_1: {
-                    text: 1,
-                    size: 2
+                    text: 1
                 },
 
                 number_2: {
-                    text: 2,
-                    size: 2
+                    text: 2
                 },
 
                 number_3: {
-                    text: 3,
-                    size: 2
+                    text: 3
                 },
 
                 subtract: {
-                    text: '-',
-                    size: 2
+                    text: '-'
                 },
 
                 power: {
-                    text: '^',
-                    size: 2
+                    text: '^'
                 },
 
                 square_root: {
-                    text: '√',
-                    size: 2
+                    text: '√'
                 },
 
                 number_0: {
-                    text: 0,
-                    size: 2
+                    text: 0
                 },
 
                 comma: {
-                    text: ',',
-                    size: 2
+                    text: ','
                 },
 
                 percent: {
-                    text: '%',
-                    size: 2
+                    text: '%'
                 },
 
                 plus: {
-                    text: '+',
-                    size: 2
+                    text: '+'
                 },
 
                 resolve: {
@@ -205,14 +183,19 @@ class App extends React.Component
     }
 
     pressButton (key, obj) {
-        if (key === 'resolve') {
-            this.resolve();
-        } else if (key === 'backspace') {
-            this.popInput();
-        } else if (key === 'clear') {
-            this.clear();
-        } else {
-            this.pushInput((obj.value !== undefined) ? obj.value : obj.text);
+        switch (key) {
+            case 'resolve':
+                this.resolve();
+                break;
+            case 'backspace':
+                this.popInput();
+                break;
+            case 'clear':
+                this.clear();
+                break;
+            default:
+                this.pushInput((obj.value !== undefined) ? obj.value : obj.text);
+                break;
         }
     }
 
@@ -221,8 +204,10 @@ class App extends React.Component
     }
 
     popInput () {
-        if (this.state.input.length) {
-            this.setInput(this.state.input.substr(0, this.state.input.length - 1));
+        let { input } = this.state;
+
+        if (input.length) {
+            this.setInput(input.substr(0, input.length - 1));
         }
     }
 
@@ -232,48 +217,39 @@ class App extends React.Component
     }
 
     resolve () {
-        if (this.state.input && this.state.input !== this.state.lastInput) {
-            let results = this.state.results;
-            let value = this.calc(this.state.input);
-            let result = this.state.input + ' = ' + value;
+        let { input, lastInput, results } = this.state;
 
-            results.push(result);
+        if (input && input !== lastInput) {
+            let resultsArr = results;
+            let value = this.calc(input);
+            let result = `${input} = ${value}`;
+
+            resultsArr.push(result);
 
             this.setResults(results);
+            this.setInput(value);
             this.setLastInput(value);
         }
     }
 
     calc (value) {
-        let formated = '';
-
         value = value.replace(/,/g, '.');
+        value = value.replace(/÷/g, '/');
+        value = value.replace(/ /, '');
 
-        for (let i = 0; i < value.length; i++) {
-            if (value.charAt(i) === '÷') {
-                formated += '/';
-            } else {
-                formated += value.charAt(i);
-            }
-        }
-
-        return eval(formated).toString().replace('.', ',');
-    }
-
-    split (value) {
-
+        return eval(value).toString().replace('.', ',');
     }
 
     render () {
         return (
-            <div style={ styles.box }>
+            <div style={styles.box}>
                 <Card>
                     <CardActionArea>
-                        <CardContent style={ styles.display }>
+                        <CardContent style={styles.display}>
                             {
                                 this.state.results.map((result, index) => 
-                                    <div key={ index }>
-                                        { result }
+                                    <div key={index}>
+                                        {result}
                                     </div>
                                 )
                             }
@@ -282,12 +258,12 @@ class App extends React.Component
 
                     <CardActions>
                         <Input
-                            value={ this.state.input }
+                            value={this.state.input}
                             fullWidth
-                            inputProps={ styles.input }
+                            inputProps={styles.input}
                             disableUnderline
-                            onKeyPress={ this.inputKey }
-                            onChange={ this.inputChange }
+                            onKeyPress={this.inputKey}
+                            onChange={this.inputChange}
                         ></Input>
                     </CardActions>
                 </Card>
@@ -297,28 +273,26 @@ class App extends React.Component
                 <Grid
                     container
                     justify="space-between"
-                    spacing={ 8 }
+                    spacing={2}
                 >
-                    {
-                        Object.entries(this.state.buttons).map((button, index) =>
-                            <Grid
-                                item
-                                xs={ button[1].size }
-                                key={ index }
-                            >
-                                <Grid>
-                                    <Button
-                                        variant="contained"
-                                        style={ styles.buttons }
-                                        fullWidth
-                                        onClick={ () => this.pressButton(button[0], button[1]) }
-                                    >
-                                        { button[1].text }
-                                    </Button>
-                                </Grid>
+                    {Object.entries(this.state.buttons).map((button, index) =>
+                        <Grid
+                            item
+                            xs={(button[1].size) ? button[1].size : 2}
+                            key={index}
+                        >
+                            <Grid>
+                                <Button
+                                    variant="contained"
+                                    style={styles.buttons}
+                                    fullWidth
+                                    onClick={() => this.pressButton(button[0], button[1])}
+                                >
+                                    {button[1].text}
+                                </Button>
                             </Grid>
-                        )
-                    }
+                        </Grid>
+                    )}
                 </Grid>
             </div>
         );
