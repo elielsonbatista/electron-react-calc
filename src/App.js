@@ -273,7 +273,7 @@ class App extends React.Component
                 <Grid
                     container
                     justify="space-between"
-                    spacing={2}
+                    spacing={1}
                 >
                     {Object.entries(this.state.buttons).map((button, index) =>
                         <Grid
