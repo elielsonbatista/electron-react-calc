@@ -1,11 +1,12 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 
@@ -29,7 +30,8 @@ const styles = {
 
     buttons: {
         backgroundColor: '#fff',
-        minWidth: 0
+        minWidth: 0,
+        minHeight: '36px'
     }
 };
 
@@ -224,7 +226,7 @@ class App extends React.Component
             let value = this.calc(input);
             let result = `${input} = ${value}`;
 
-            resultsArr.push(result);
+            resultsArr.unshift(result);
 
             this.setResults(results);
             this.setInput(value);
@@ -248,9 +250,9 @@ class App extends React.Component
                         <CardContent style={styles.display}>
                             {
                                 this.state.results.map((result, index) => 
-                                    <div key={index}>
+                                    <Typography key={index} variant="body2">
                                         {result}
-                                    </div>
+                                    </Typography>
                                 )
                             }
                         </CardContent>
