@@ -1,14 +1,18 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
-import Typography from '@material-ui/core/Typography';
-import DeleteIcon from '@material-ui/icons/Delete';
-import BackspaceIcon from '@material-ui/icons/Backspace';
+import {
+    Button,
+    Card,
+    CardContent,
+    CardActionArea,
+    CardActions,
+    Grid,
+    Input,
+    Typography
+} from '@material-ui/core';
+import {
+    Backspace as BackspaceIcon,
+    Delete as DeleteIcon
+} from '@material-ui/icons';
 
 const styles = {
     box: {
@@ -46,15 +50,15 @@ class App extends React.Component
             results: [],
 
             buttons: {
-                number_7: {
+                numberSeven: {
                     text: 7
                 },
 
-                number_8: {
+                NumberEight: {
                     text: 8
                 },
 
-                number_9: {
+                numberNine: {
                     text: 9
                 },
 
@@ -70,15 +74,15 @@ class App extends React.Component
                     text: <BackspaceIcon fontSize="small" />
                 },
 
-                number_4: {
+                numberFour: {
                     text: 4
                 },
 
-                number_5: {
+                numberFive: {
                     text: 5
                 },
 
-                number_6: {
+                numberSix: {
                     text: 6
                 },
 
@@ -86,23 +90,23 @@ class App extends React.Component
                     text: '*'
                 },
 
-                parenthesis_open: {
+                parenthesisOpen: {
                     text: '('
                 },
 
-                parenthesis_close: {
+                parenthesisClose: {
                     text: ')'
                 },
 
-                number_1: {
+                numberOne: {
                     text: 1
                 },
 
-                number_2: {
+                numberTwo: {
                     text: 2
                 },
 
-                number_3: {
+                numberThree: {
                     text: 3
                 },
 
@@ -114,11 +118,11 @@ class App extends React.Component
                     text: '^'
                 },
 
-                square_root: {
+                squareRoot: {
                     text: '√'
                 },
 
-                number_0: {
+                numberZero: {
                     text: 0
                 },
 
@@ -164,14 +168,14 @@ class App extends React.Component
     }
 
     inputKey (event) {
-        let enabled_keys = [
+        let enabledKeys = [
             '0', '1', '2', '3', '4',
             '5', '6', '7', '8', '9',
             '+', '-', '/', '*', 'Enter',
             '^', '(', ')', '√', ',', '!'
         ];
 
-        if (enabled_keys.indexOf(event.key) >= 0) {
+        if (enabledKeys.indexOf(event.key) >= 0) {
             if (event.key === 'Enter') {
                 this.resolve();
             }
@@ -181,10 +185,10 @@ class App extends React.Component
     }
 
     inputChange ({ target }) {
-        this.setInput(target.value);
+        this.setInput(target.value.replace('/', '÷'));
     }
 
-    pressButton (key, obj) {
+    pressButton (key, { value, text }) {
         switch (key) {
             case 'resolve':
                 this.resolve();
@@ -196,7 +200,7 @@ class App extends React.Component
                 this.clear();
                 break;
             default:
-                this.pushInput((obj.value !== undefined) ? obj.value : obj.text);
+                this.pushInput((value !== undefined) ? value : text);
                 break;
         }
     }
